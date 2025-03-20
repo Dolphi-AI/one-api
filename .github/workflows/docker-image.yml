@@ -29,8 +29,12 @@ jobs:
 
       - name: Save version info
         run: |
-          git describe --tags > VERSION 
-
+          if [ $(git tag | wc -l) -eq 0 ]; then
+            echo "No tags found"
+            exit 1
+          else
+            git describe --tags > VERSION
+          fi
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
